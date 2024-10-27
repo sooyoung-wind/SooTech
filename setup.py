@@ -9,10 +9,13 @@ setup(
     install_requires=[
         'pandas',
         'numpy',
+        'matplotlib',
+        'seaborn',
+        'sklearn',
         'torch',
     ],
     description='A collection of utility functions by Soo',
     author='Sooyoung Her',
     author_email='sooyoung.wind@gmail.com',
-    url='https://github.com/sooyoung-wind/soo_functions',
+    url='https://github.com/sooyoung-wind/SooTech',
 )
