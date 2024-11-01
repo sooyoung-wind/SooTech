@@ -67,7 +67,7 @@ def seed_everything(seed: int = 9234, set_torch_seed: bool = True) -> None:
             print("PyTorch가 설치되어 있지 않습니다. PyTorch 시드 설정은 건너뜁니다.")
 
 
-def trans_to_WSWD(u: np.ndarray | list, v: np.ndarray | list) -> pd.DataFrame:
+def trans_to_WSWD(u: pd.Series, v: pd.Series) -> pd.DataFrame:
     """
     주어진 u, v 성분을 이용해 풍속(ws)과 풍향(wd)을 계산하는 함수.
 
@@ -75,8 +75,8 @@ def trans_to_WSWD(u: np.ndarray | list, v: np.ndarray | list) -> pd.DataFrame:
     풍속(ws)은 u, v 성분의 제곱 합에 루트를 씌워 계산됩니다.
 
     Args:
-        u (np.ndarray or list): 동서 방향의 풍속 성분
-        v (np.ndarray or list): 남북 방향의 풍속 성분
+        u (pd.Series): 동서 방향의 풍속 성분
+        v (pd.Series): 남북 방향의 풍속 성분
 
     Returns:
         pd.DataFrame: 풍속(ws)과 풍향(wd)을 포함하는 데이터프레임
@@ -87,7 +87,7 @@ def trans_to_WSWD(u: np.ndarray | list, v: np.ndarray | list) -> pd.DataFrame:
     return data_results
 
 
-def trans_to_UV(ws: np.ndarray | list, wd: np.ndarray | list) -> pd.DataFrame:
+def trans_to_UV(ws: pd.Series, wd: pd.Series) -> pd.DataFrame:
     """
     주어진 풍속(ws)과 풍향(wd)을 이용해 u, v 성분을 계산하는 함수.
 
@@ -95,8 +95,8 @@ def trans_to_UV(ws: np.ndarray | list, wd: np.ndarray | list) -> pd.DataFrame:
     이를 이용해 u(동서 방향)과 v(남북 방향) 성분을 계산합니다.
 
     Args:
-        ws (np.ndarray or list): 풍속
-        wd (np.ndarray or list): 풍향 (단위: 도)
+        ws (pd.Series): 풍속
+        wd (pd.Series): 풍향 (단위: 도)
 
     Returns:
         pd.DataFrame: u(동서 방향 성분)과 v(남북 방향 성분)을 포함하는 데이터프레임
