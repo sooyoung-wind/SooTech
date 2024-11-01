@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import random
 import os
-from typing import Union
 
 # PyTorch 임포트를 시도하고, 실패하면 None으로 설정
 try:
@@ -68,7 +67,7 @@ def seed_everything(seed: int = 9234, set_torch_seed: bool = True) -> None:
             print("PyTorch가 설치되어 있지 않습니다. PyTorch 시드 설정은 건너뜁니다.")
 
 
-def trans_to_WSWD(u: Union[np.ndarray, list], v: Union[np.ndarray, list]) -> pd.DataFrame:
+def trans_to_WSWD(u: np.ndarray | list, v: np.ndarray | list) -> pd.DataFrame:
     """
     주어진 u, v 성분을 이용해 풍속(ws)과 풍향(wd)을 계산하는 함수.
 
@@ -88,7 +87,7 @@ def trans_to_WSWD(u: Union[np.ndarray, list], v: Union[np.ndarray, list]) -> pd.
     return data_results
 
 
-def trans_to_UV(ws: Union[np.ndarray, list], wd: Union[np.ndarray, list]) -> pd.DataFrame:
+def trans_to_UV(ws: np.ndarray | list, wd: np.ndarray | list) -> pd.DataFrame:
     """
     주어진 풍속(ws)과 풍향(wd)을 이용해 u, v 성분을 계산하는 함수.
 

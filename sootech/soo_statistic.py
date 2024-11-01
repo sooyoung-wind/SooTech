@@ -1,12 +1,11 @@
 import numpy as np
 import warnings
 import pandas as pd
-from typing import Union
 from sklearn.metrics import mean_absolute_error, root_mean_squared_error
-from soo_functions import trans_to_UV, trans_to_WSWD
+from sootech import trans_to_UV, trans_to_WSWD
 
 
-def _check_for_nan_or_inf(data: Union[np.ndarray, pd.Series]) -> bool:
+def _check_for_nan_or_inf(data: np.ndarray | pd.Series) -> bool:
     """
     하나의 데이터에서 NaN 또는 inf 값이 있는지 확인.
     NaN 또는 inf 값이 있으면 경고를 발생시키고 False 반환.
@@ -27,7 +26,7 @@ def _check_for_nan_or_inf(data: Union[np.ndarray, pd.Series]) -> bool:
     return True
 
 
-def _check_both_data_valid(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Series]) -> bool:
+def _check_both_data_valid(F_data: np.ndarray | pd.Series, A_data: np.ndarray | pd.Series) -> bool:
     """
     F_data와 A_data에서 모두 NaN 및 inf 값이 없는지 확인.
     둘 중 하나라도 NaN 또는 inf 값이 있으면 False 반환.
@@ -48,7 +47,7 @@ def _check_both_data_valid(F_data: Union[np.ndarray, pd.Series], A_data: Union[n
     return _check_for_nan_or_inf(F_data) and _check_for_nan_or_inf(A_data)
 
 
-def _get_valid_mask(data: Union[np.ndarray, pd.Series]) -> np.ndarray:
+def _get_valid_mask(data: np.ndarray | pd.Series) -> np.ndarray:
     """
     데이터에서 NaN 및 inf 값을 제외한 유효한 값들의 마스크를 반환.
 
@@ -65,7 +64,7 @@ def _get_valid_mask(data: Union[np.ndarray, pd.Series]) -> np.ndarray:
     return ~np.isnan(data) & ~np.isinf(data)
 
 
-def _get_combined_valid_mask(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Series]) -> np.ndarray:
+def _get_combined_valid_mask(F_data: np.ndarray | pd.Series, A_data: np.ndarray | pd.Series) -> np.ndarray:
     """
     F_data와 A_data 각각의 NaN 및 inf 값을 제외한 유효한 값들의 결합 마스크 반환.
 
@@ -87,7 +86,7 @@ def _get_combined_valid_mask(F_data: Union[np.ndarray, pd.Series], A_data: Union
     return valid_mask_F & valid_mask_A
 
 
-def _filter_valid_data(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Series]) -> tuple[np.ndarray, np.ndarray]:
+def _filter_valid_data(F_data: np.ndarray | pd.Series, A_data: np.ndarray | pd.Series) -> np.ndarray | np.ndarray:
     """
     F_data와 A_data에서 NaN 및 inf 값을 제외한 유효한 데이터만 반환.
 
@@ -108,7 +107,7 @@ def _filter_valid_data(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.nd
     return F_data[valid_mask], A_data[valid_mask]
 
 
-def me(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Series]) -> float:
+def me(F_data: np.ndarray | pd.Series, A_data: np.ndarray | pd.Series) -> float:
     """
     평균 오차 (Mean Error) 계산 함수.
     NaN 및 inf 값을 확인하고, 값이 있으면 제외하고 계산.
@@ -134,7 +133,7 @@ def me(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Series
     return np.mean(F_data - A_data)
 
 
-def mae(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Series]) -> float:
+def mae(F_data: np.ndarray | pd.Series, A_data: np.ndarray | pd.Series) -> float:
     """
     평균 절대 오차 (Mean Absolute Error) 계산 함수
 
@@ -160,7 +159,7 @@ def mae(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Serie
     return mean_absolute_error(y_pred=F_data, y_true=A_data)
 
 
-def rmse(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Series]) -> float:
+def rmse(F_data: np.ndarray | pd.Series, A_data: np.ndarray | pd.Series) -> float:
     """
     제곱 평균 오차 (Root Mean Square Error) 계산 함수
 
@@ -186,7 +185,7 @@ def rmse(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Seri
     return root_mean_squared_error(y_pred=F_data, y_true=A_data)
 
 
-def d(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Series]) -> float:
+def d(F_data: np.ndarray | pd.Series, A_data: np.ndarray | pd.Series) -> float:
     """
     일치 지수 (Index of Agreement) 계산 함수
 
@@ -214,7 +213,7 @@ def d(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Series]
     return 1 - numerator / denominator
 
 
-def soo_statistic(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray, pd.Series], based_value: float = 30) -> pd.DataFrame:
+def cal_statistics(F_data: np.ndarray | pd.Series, A_data: np.ndarray | pd.Series, based_value: float = 30) -> pd.DataFrame:
     """
     F_data와 A_data 간의 다양한 통계 지표를 계산하는 함수
 
@@ -253,7 +252,7 @@ def soo_statistic(F_data: Union[np.ndarray, pd.Series], A_data: Union[np.ndarray
     return results
 
 
-def wd_diff_cal(F_wd: Union[np.ndarray, pd.Series], A_wd: Union[np.ndarray, pd.Series]) -> np.ndarray:
+def wd_diff_cal(F_wd: np.ndarray | pd.Series, A_wd: np.ndarray | pd.Series) -> np.ndarray:
     """
     예측 풍향과 실제 풍향 간의 차이를 라디안 값으로 계산하여 도(degree)로 반환하는 함수
 
@@ -276,7 +275,7 @@ def wd_diff_cal(F_wd: Union[np.ndarray, pd.Series], A_wd: Union[np.ndarray, pd.S
     return Diff_radian_value * 180 / np.pi
 
 
-def _getmode(data: Union[np.ndarray, pd.Series]) -> float:
+def _getmode(data: np.ndarray |pd.Series) -> float:
     """
     데이터의 최빈값을 반환하는 함수
 
@@ -295,7 +294,7 @@ def _getmode(data: Union[np.ndarray, pd.Series]) -> float:
     return values[mode_index]
 
 
-def mean_wd(ws: Union[np.ndarray, pd.Series], wd: Union[np.ndarray, pd.Series], cal_method: str = "mode") -> float:
+def mean_wd(ws: np.ndarray | pd.Series, wd: np.ndarray | pd.Series, cal_method: str = "mode") -> float:
     """
     풍속(ws)과 풍향(wd)을 기반으로 평균, 최빈값 또는 중앙값을 계산하는 함수
 
@@ -328,8 +327,8 @@ def mean_wd(ws: Union[np.ndarray, pd.Series], wd: Union[np.ndarray, pd.Series], 
 
 
 def wd_statistic(
-    F_data: Union[np.ndarray, pd.Series],
-    A_data: Union[np.ndarray, pd.Series],
+    F_data: np.ndarray | pd.Series,
+    A_data: np.ndarray | pd.Series,
     based_value: float = 360,
     cal_method: str = "mode"
 ) -> pd.DataFrame:
