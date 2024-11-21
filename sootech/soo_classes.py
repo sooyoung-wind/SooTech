@@ -1,7 +1,7 @@
 import sys
 import types
 import pandas as pd
-from . import soo_functions, soo_statistic, soo_plots
+import soo_functions, soo_statistic, soo_plots
 
 class SooTech:
     """
@@ -36,7 +36,8 @@ class SooTech:
         1  2
         2  3
         """
-        self.raw_data = self._load_data(raw_data)
+        if not raw_data is None:
+            self.raw_data = self._load_data(raw_data)
         self._add_module_functions(soo_functions)
         self._add_module_functions(soo_statistic)
         self._add_module_functions(soo_plots)
