@@ -2,7 +2,7 @@ import numpy as np
 import warnings
 import pandas as pd
 from sklearn.metrics import mean_absolute_error, root_mean_squared_error
-from soo_functions import trans_to_UV, trans_to_WSWD
+from .soo_functions import trans_to_UV, trans_to_WSWD
 
 
 def _check_for_nan_or_inf(data: pd.Series) -> bool:
