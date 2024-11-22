@@ -1,7 +1,7 @@
 import sys
 import types
 import pandas as pd
-import soo_functions, soo_statistic, soo_plots
+import .soo_functions, .soo_statistic, .soo_plots
 
 class SooTech:
     """
