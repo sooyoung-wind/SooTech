@@ -21,7 +21,7 @@ SooTech를 사용하여 데이터프레임의 요약 정보를 출력하고, 랜
 ### OOP API
 
 ```python
-import SooTech as soo
+from sootech import SooTech
 import pandas as pd
 
 # 예시 데이터프레임 생성
@@ -31,7 +31,7 @@ df = pd.DataFrame({
 })
 
 # SooTech 클래스 인스턴스 생성
-sootech = soo.SooTech(raw_data=df)
+sootech = SooTech(raw_data=df)
 
 # DataFrame 요약 정보 출력
 summary = sootech.resumetable(sootech.raw_data)
@@ -43,7 +43,7 @@ sootech.seed_everything(42)
 ### Functaion API
 
 ```python
-import SooTech as soo
+import sootech
 import pandas as pd
 
 # 예시 데이터프레임 생성
